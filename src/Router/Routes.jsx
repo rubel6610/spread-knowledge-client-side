@@ -27,6 +27,9 @@ export const router = createBrowserRouter([
     },
     {
         path:"/post-article",
-        element:<PostArticle/>
+        element:<>
+        <Navbar/>
+        <PostArticle/>
+        </>
     }
 ])
