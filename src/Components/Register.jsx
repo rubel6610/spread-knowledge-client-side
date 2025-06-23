@@ -1,0 +1,176 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../Hooks/useAuth";
+import Swal from "sweetalert2";
+import { FcGoogle } from "react-icons/fc";
+import Navbar from "./Navbar";
+
+const Register = () => {
+  const { createuser, updateUserInfo, googlesignIn } = useAuth();
+  const navigate = useNavigate();
+  const [passError, setPassError] = useState("");
+  const [firebaseError, setFirebaseError] = useState("");
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const { email, password, name, photo } = Object.fromEntries(
+      formData.entries()
+    );
+  
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+    if (!passwordPattern.test(password)) {
+      setPassError(
+        "Password must be at least 6 characters with at least one uppercase and one lowercase letter."
+      );
+      return;
+    }
+    
+    const userProfileDetails = {
+      email,
+      userName: name,
+      photoURL: photo,
+    };
+    createuser(email, password)
+      .then(() => {
+        updateUserInfo({
+          displayName: name,
+          photoURL: photo,
+        })
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Registration Successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            form.reset();
+            navigate("/");
+          })
+          .catch((error) => {
+            setFirebaseError(error.message);
+          });
+      })
+      .catch((error) => {
+        setFirebaseError(error.message);
+      });
+  };
+  // google register
+  const handleGoogleRegister = () => {
+    googlesignIn()
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Registration successfull by google",
+
+          showConfirmButton: false,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: error.code,
+          text: error.message,
+          showConfirmButton: false,
+        });
+      });
+  };
+  return (
+    <>
+      <Navbar />
+      <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+        <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md">
+          <h2 className="text-3xl font-bold text-center text-white mb-6">
+            Register
+          </h2>
+          <form onSubmit={handleRegister}>
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-300 mb-2">
+                Name
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter your name"
+                required
+              />
+             
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-300 mb-2">
+                Email
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+              />
+             
+            </div>
+            <div className="mb-4">
+              <label htmlFor="photo" className="block text-gray-300 mb-2">
+                Photo URL
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                type="text"
+                name="photo"
+                id="photo"
+                placeholder="Enter photo URL"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="password" className="block text-gray-300 mb-2">
+                Password
+              </label>
+              <input
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+              />
+              {passError && (
+                <p className="text-red-400 text-sm mt-2">{passError}</p>
+              )}
+            </div>
+            {firebaseError && (
+              <p className="text-red-400 text-sm mt-1">{firebaseError}</p>
+            )}
+            
+            <button
+              type="submit"
+              className="w-full btn  btn-primary text-white py-2 rounded-lg font-semibold transition duration-300"
+            >
+              Register
+            </button>
+          </form>
+          <p className="my-2">
+            Already have an account{" "}
+            <Link className="text-blue-600" to="/login">
+              Login
+            </Link>
+          </p>
+          <div className="divider text-gray-400 my-4">OR</div>
+
+          <button
+            onClick={handleGoogleRegister}
+            className="w-full flex items-center justify-center gap-2 border border-gray-500 hover:bg-gray-700 text-white py-2 rounded-lg transition duration-300"
+          >
+            <FcGoogle className="text-xl" /> Sign Up with Google
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Register;

@@ -1,9 +1,26 @@
 import { createBrowserRouter } from "react-router";
 import Root from "../MainLayout/Root";
+import Login from "../Components/Login";
+import Register from "../Components/Register";
 
 export const router = createBrowserRouter([
     {
         path:"/",
         Component:Root,
+    },
+    {
+        path:"/login",
+        Component:Login,
+    },
+    {
+        path:"/register",
+        Component:Register,
+    },
+    {
+        path:"/my-articles",
+        
+    },
+    {
+        path:"/post-article"
     }
 ])
