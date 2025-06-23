@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router";
 import Root from "../MainLayout/Root";
 import Login from "../Components/Login";
 import Register from "../Components/Register";
+import Navbar from "../Components/Navbar";
+import PostArticle from "../Pages/PostArticle";
 
 export const router = createBrowserRouter([
     {
@@ -10,7 +12,10 @@ export const router = createBrowserRouter([
     },
     {
         path:"/login",
-        Component:Login,
+        element:<>
+        <Navbar></Navbar>
+        <Login/>
+        </>,
     },
     {
         path:"/register",
@@ -21,6 +26,7 @@ export const router = createBrowserRouter([
         
     },
     {
-        path:"/post-article"
+        path:"/post-article",
+        element:<PostArticle/>
     }
 ])
