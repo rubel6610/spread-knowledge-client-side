@@ -1,28 +1,58 @@
 import React from "react";
 import useAuth from "../Hooks/useAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const PostArticle = () => {
   const { user } = useAuth();
 
   const handlePost = (e) => {
     e.preventDefault();
-    const form=e.target;
+    const form = e.target;
     const formData = new FormData(form);
-    const {category,content,date,tags,thumbnail,title} = Object.fromEntries(formData.entries());
-   const separatedTags=tags.split(",").map(tag=>tag.trim())
-    const articleData={
-        category,
-        content,
-        date,
-        thumbnail,
-        title,
-        separatedTags,
-        authorEmail:user.email,
-        authorName:user.displayName,
+    const { category, content, tags, thumbnail, title } = Object.fromEntries(formData.entries());
 
-    }
-    console.log(articleData);
+    const separatedTags = tags.split(",").map((tag) => tag.trim());
+
+    const articleData = {
+      category,
+      content,
+      date: new Date().toISOString(), 
+      thumbnail,
+      title,
+      separatedTags,
+      authorEmail: user.email,
+      authorName: user.displayName,
+    };
+
+    axios.post(`${import.meta.env.VITE_BASEURL}/articles`, articleData)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Article Posted Successfully!",
+            text: "Your article has been added to the system.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          form.reset();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed to Post",
+            text: "Please try again later.",
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
+        });
+      });
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
       <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-2xl">
@@ -31,9 +61,7 @@ const PostArticle = () => {
         </h2>
         <form onSubmit={handlePost}>
           <div className="mb-4">
-            <label htmlFor="title" className="block text-gray-300 mb-2">
-              Title
-            </label>
+            <label htmlFor="title" className="block text-gray-300 mb-2">Title</label>
             <input
               type="text"
               name="title"
@@ -45,9 +73,7 @@ const PostArticle = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="content" className="block text-gray-300 mb-2">
-              Content
-            </label>
+            <label htmlFor="content" className="block text-gray-300 mb-2">Content</label>
             <textarea
               name="content"
               id="content"
@@ -59,15 +85,12 @@ const PostArticle = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="category" className="block text-gray-300 mb-2">
-              Category
-            </label>
+            <label htmlFor="category" className="block text-gray-300 mb-2">Category</label>
             <select
               name="category"
               id="category"
               required
               className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
-             
             >
               <option value="">Select Category</option>
               <option value="Technology">Technology</option>
@@ -78,9 +101,7 @@ const PostArticle = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="tags" className="block text-gray-300 mb-2">
-              Tags (comma-separated)
-            </label>
+            <label htmlFor="tags" className="block text-gray-300 mb-2">Tags (Use Comma For Separate)</label>
             <input
               type="text"
               name="tags"
@@ -91,9 +112,7 @@ const PostArticle = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="thumbnail" className="block text-gray-300 mb-2">
-              Thumbnail Image URL
-            </label>
+            <label htmlFor="thumbnail" className="block text-gray-300 mb-2">Thumbnail URL</label>
             <input
               type="text"
               name="thumbnail"
@@ -104,35 +123,18 @@ const PostArticle = () => {
             />
           </div>
 
-          <div className="mb-6">
-            <label htmlFor="date" className="block text-gray-300 mb-2">
-              Date
-            </label>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              required
-              className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
-            />
-          </div>
-
-          <div className="py-2  rounded-xl">
-            <legend className=" text-gray-300 mb-2 text-center">
-              Logged In User
-            </legend>
-           <div className="flex">
-
-             <label>Name: </label>
-               
-               <input className="w-full" type="email" defaultValue={user?.displayName} disabled />
-            
-                <label>Email: </label>
+          <div className="py-2 rounded-xl mb-4">
+            <legend className="text-gray-300 mb-2 text-center">Logged In User</legend>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2 items-center">
+                <label>Name:</label>
+                <input className="w-full" type="text" defaultValue={user?.displayName} disabled />
+              </div>
+              <div className="flex gap-2 items-center">
+                <label>Email:</label>
                 <input className="w-full" type="email" defaultValue={user?.email} disabled />
-           </div>
-              
-               
-         
+              </div>
+            </div>
           </div>
 
           <button

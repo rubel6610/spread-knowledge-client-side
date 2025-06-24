@@ -4,49 +4,58 @@ import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import Navbar from "./Navbar";
+import axios from "axios";
 
 const Register = () => {
   const { createuser, updateUserInfo, googlesignIn } = useAuth();
   const navigate = useNavigate();
+
   const [passError, setPassError] = useState("");
   const [firebaseError, setFirebaseError] = useState("");
+
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const { email, password, name, photo } = Object.fromEntries(
-      formData.entries()
-    );
-  
+    const { email, password, name, photo } = Object.fromEntries(formData.entries());
+
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
     if (!passwordPattern.test(password)) {
-      setPassError(
-        "Password must be at least 6 characters with at least one uppercase and one lowercase letter."
-      );
+      setPassError("Password must be at least 6 characters with at least one uppercase and one lowercase letter.");
       return;
     }
-    
-    const userProfileDetails = {
-      email,
-      userName: name,
-      photoURL: photo,
-    };
+
+    setPassError(""); // Clear previous error
+
     createuser(email, password)
-      .then(() => {
+      .then((result) => {
+        const user = result.user;
+
         updateUserInfo({
           displayName: name,
           photoURL: photo,
         })
           .then(() => {
-            Swal.fire({
-              icon: "success",
-              title: "Registration Successful",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            form.reset();
-            navigate("/");
+            const newUser = {
+              email: user.email,
+              userName: name,
+              photoURL: photo,
+              createdAt: new Date(),
+            };
+
+            axios.post(`${import.meta.env.VITE_BASEURL}/user`, newUser)
+              .then((res) => {
+                if (res.data.insertedId) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Registration Successful",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  navigate("/");
+                }
+              });
           })
           .catch((error) => {
             setFirebaseError(error.message);
@@ -56,17 +65,29 @@ const Register = () => {
         setFirebaseError(error.message);
       });
   };
-  // google register
+
+  // Google Register
   const handleGoogleRegister = () => {
     googlesignIn()
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Registration successfull by google",
+      .then((result) => {
+        const user = result.user;
+        const newUser = {
+          email: user.email,
+          userName: user.displayName,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        };
 
-          showConfirmButton: false,
-        });
-        navigate("/");
+        axios.post(`${import.meta.env.VITE_BASEURL}/user`, newUser)
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Google Registration Successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          });
       })
       .catch((error) => {
         Swal.fire({
@@ -77,88 +98,78 @@ const Register = () => {
         });
       });
   };
+
   return (
     <>
       <Navbar />
       <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
         <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md">
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
-            Register
-          </h2>
+          <h2 className="text-3xl font-bold text-center text-white mb-6">Register</h2>
+
           <form onSubmit={handleRegister}>
             <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-300 mb-2">
-                Name
-              </label>
+              <label htmlFor="name" className="block text-gray-300 mb-2">Name</label>
               <input
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
                 type="text"
                 name="name"
                 id="name"
                 placeholder="Enter your name"
                 required
               />
-             
             </div>
+
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-300 mb-2">
-                Email
-              </label>
+              <label htmlFor="email" className="block text-gray-300 mb-2">Email</label>
               <input
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Enter your email"
                 required
               />
-             
             </div>
+
             <div className="mb-4">
-              <label htmlFor="photo" className="block text-gray-300 mb-2">
-                Photo URL
-              </label>
+              <label htmlFor="photo" className="block text-gray-300 mb-2">Photo URL</label>
               <input
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
                 type="text"
                 name="photo"
                 id="photo"
                 placeholder="Enter photo URL"
               />
             </div>
+
             <div className="mb-6">
-              <label htmlFor="password" className="block text-gray-300 mb-2">
-                Password
-              </label>
+              <label htmlFor="password" className="block text-gray-300 mb-2">Password</label>
               <input
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none "
+                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
                 type="password"
                 name="password"
                 id="password"
                 placeholder="Enter your password"
                 required
               />
-              {passError && (
-                <p className="text-red-400 text-sm mt-2">{passError}</p>
-              )}
+              {passError && <p className="text-red-400 text-sm mt-2">{passError}</p>}
             </div>
-            {firebaseError && (
-              <p className="text-red-400 text-sm mt-1">{firebaseError}</p>
-            )}
-            
+
+            {firebaseError && <p className="text-red-400 text-sm mt-1">{firebaseError}</p>}
+
             <button
               type="submit"
-              className="w-full btn  btn-primary text-white py-2 rounded-lg font-semibold transition duration-300"
+              className="w-full btn btn-primary text-white py-2 rounded-lg font-semibold transition duration-300"
             >
               Register
             </button>
           </form>
+
           <p className="my-2">
             Already have an account{" "}
-            <Link className="text-blue-600" to="/login">
-              Login
-            </Link>
+            <Link className="text-blue-600" to="/login">Login</Link>
           </p>
+
           <div className="divider text-gray-400 my-4">OR</div>
 
           <button
