@@ -6,7 +6,6 @@ import Navbar from "../Components/Navbar";
 import PostArticle from "../Pages/PostArticle";
 import AllArticles from "../Pages/AllArticles";
 import MyArticles from "../Pages/MyArticles";
-import axios from "axios";
 import PrivateRoutes from "./PrivateRoutes";
 import ArticleDetails from "../Pages/ArticleDetails";
 import Category from "../Pages/Category";
@@ -36,7 +35,7 @@ export const router = createBrowserRouter([
         <AllArticles />
       </>
     ),
-    loader: () => axios.get(`${import.meta.env.VITE_BASEURL}/articles`),
+    
   },
   {
     path: "/all-articles/:id",

@@ -29,7 +29,7 @@ const MyArticles = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`${import.meta.env.VITE_BASEURL}/articles/${id}`)
+          .delete(`${import.meta.env.VITE_BASEURL}/myarticles/${id}`)
           .then((res) => {
             if (res.data.deletedCount > 0) {
               Swal.fire('Deleted!', 'Your article has been deleted.', 'success');
@@ -103,7 +103,7 @@ const MyArticles = () => {
             <tbody>
               {myArticles.map(article => (
                 <tr key={article._id}>
-                  <td><img className='w-16' src={article.thumbnail} alt="" /></td>
+                  <td><img className='w-16 h-10' src={article.thumbnail} alt="" /></td>
                   <td>{article.title}</td>
                   <td>{article.category}</td>
                   <td>{article.date}</td>
@@ -118,7 +118,7 @@ const MyArticles = () => {
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-opacity-10 z-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
             <div className="bg-gray-800 p-6 rounded-lg w-full max-w-lg">
               <h3 className="text-xl font-bold mb-4 text-white">Update Article</h3>
               <form onSubmit={handleUpdate}>

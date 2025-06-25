@@ -82,7 +82,7 @@ const Register = () => {
           .then(() => {
             Swal.fire({
               icon: "success",
-              title: "Google Registration Successful",
+              title: "Registration Successful",
               showConfirmButton: false,
               timer: 1500,
             });

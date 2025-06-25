@@ -1,10 +1,24 @@
-import React from 'react';
-import { useLoaderData } from 'react-router';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router';
 
 const AllArticles = () => {
-    const { data: articles } = useLoaderData();
-
+    const [articles,setArticles]=useState([]);
+    const [loading,setLoading]=useState(true);
+    useEffect(()=>{
+        axios.get(`${import.meta.env.VITE_BASEURL}/articles`).then(res=>{
+            setLoading(false);
+            setArticles(res.data)
+        })
+    },[])
+     if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-900">
+        <span className="loading loading-spinner loading-lg text-blue-500"></span>
+      </div>
+    );
+  }
     return (
         <div className="min-h-screen bg-gray-900 text-white p-4">
             <h2 className="text-4xl text-center font-bold mb-8">All Articles</h2>

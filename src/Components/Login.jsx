@@ -40,7 +40,7 @@ const Login = () => {
       .then(() => {
         Swal.fire({
           icon: "success",
-          title: "Google Sign-In Success",
+          title: "Sign-In Success",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -49,7 +49,7 @@ const Login = () => {
       .catch((err) => {
         Swal.fire({
           icon: "error",
-          title: "Google Sign-In Failed",
+          title: "Sign-In Failed",
           text: err.message,
         });
       });
