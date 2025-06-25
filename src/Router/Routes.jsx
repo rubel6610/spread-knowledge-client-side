@@ -4,32 +4,63 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 import Navbar from "../Components/Navbar";
 import PostArticle from "../Pages/PostArticle";
+import AllArticles from "../Pages/AllArticles";
+import MyArticles from "../Pages/MyArticles";
+import axios from "axios";
+import PrivateRoutes from "./PrivateRoutes";
+import ArticleDetails from "../Pages/ArticleDetails";
+import Category from "../Pages/Category";
 
 export const router = createBrowserRouter([
-    {
-        path:"/",
-        Component:Root,
-    },
-    {
-        path:"/login",
-        element:<>
+  {
+    path: "/",
+    Component: Root,
+  },
+  {
+    path: "/login",
+    element: (
+      <>
+        <Login />
+      </>
+    ),
+  },
+  {
+    path: "/register",
+    Component: Register,
+  },
+  {
+    path: "/all-articles",
+    element: (
+      <>
         <Navbar></Navbar>
-        <Login/>
-        </>,
-    },
-    {
-        path:"/register",
-        Component:Register,
-    },
-    {
-        path:"/my-articles",
-        
-    },
-    {
-        path:"/post-article",
-        element:<>
-        <Navbar/>
-        <PostArticle/>
-        </>
-    }
-])
+        <AllArticles />
+      </>
+    ),
+    loader: () => axios.get(`${import.meta.env.VITE_BASEURL}/articles`),
+  },
+  {
+    path: "/all-articles/:id",
+    element: <ArticleDetails />,
+  },
+  {
+    path: "/my-articles",
+    element: (
+      <PrivateRoutes>
+        <MyArticles />
+      </PrivateRoutes>
+    ),
+    
+  },
+  {
+    path: "/post-article",
+    element: (
+      <PrivateRoutes>
+        <PostArticle />
+      </PrivateRoutes>
+    ),
+  },
+  {
+    path:"/category/:category",
+    Component:Category,
+  }
+]);

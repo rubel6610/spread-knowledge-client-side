@@ -48,8 +48,22 @@ const Navbar = () => {
           All Articles
         </NavLink>
       </li>
-      {user && (
-        <>
+     
+      <li>
+        <NavLink
+          to="/about-us"
+          className={({ isActive }) =>
+            isActive ? "text-blue-500 font-bold" : ""
+          }
+        >
+          About Us
+        </NavLink>
+      </li>
+    </>
+  );
+  const PrivateLinks =    (
+       <>
+     
           <li>
             <NavLink
               to="/my-articles"
@@ -71,19 +85,7 @@ const Navbar = () => {
             </NavLink>
           </li>
         </>
-      )}
-      <li>
-        <NavLink
-          to="/about-us"
-          className={({ isActive }) =>
-            isActive ? "text-blue-500 font-bold" : ""
-          }
-        >
-          About Us
-        </NavLink>
-      </li>
-    </>
-  );
+    ) 
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -97,6 +99,7 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
             {links}
+            {PrivateLinks}
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
@@ -105,7 +108,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex gap-5">{links}</ul>
+        <ul className="flex gap-5">{links}{PrivateLinks}</ul>
       </div>
 
       <div className="navbar-end">
@@ -124,7 +127,7 @@ const Navbar = () => {
                 <img
                   src={
                     user?.photoURL ||
-                    "https://i.ibb.co/2FsfXqM/default-avatar.png"
+                   "userPhoto"
                   }
                
                 />
@@ -134,12 +137,7 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 shadow rounded-box mt-3 w-52 z-10"
             >
-              <li>
-                <Link to="/my-articles">My Articles</Link>
-              </li>
-              <li>
-                <Link to="/post-article">Post Article</Link>
-              </li>
+             {user && PrivateLinks}
               <li>
                 <button onClick={handleLogout}>Logout</button>
               </li>
