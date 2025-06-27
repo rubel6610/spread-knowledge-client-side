@@ -58,7 +58,7 @@ const ArticleDetails = () => {
     <>
    
     <div className="min-h-screen  p-6 flex justify-center">
-      <div className="max-w-3xl w-full bg-gray-800 p-6 rounded-xl">
+      <div className="max-w-3xl w-full bg-base-200 p-6 rounded-xl">
         <img src={article.thumbnail} alt="" className="w-full object-cover rounded-lg mb-4" />
         <h2 className="text-3xl font-bold mb-2">{article.title}</h2>
         <p className="mb-2 ">Category: {article.category}</p>

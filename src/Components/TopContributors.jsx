@@ -12,13 +12,13 @@ const TopContributors = () => {
   }, []);
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-900">
+      <div className="min-h-screen flex justify-center items-center bg-base-300">
         <span className="loading loading-spinner loading-lg text-blue-500"></span>
       </div>
     );
   }
   return (
-    <div className="  p-6 rounded-lg shadow-md">
+    <div className="bg-base-300  p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center">Top Contributors</h2>
       <ul className="space-y-3">
         {contributors.map((contributor, index) => (
@@ -27,7 +27,7 @@ const TopContributors = () => {
             className="flex justify-between  p-3 rounded border"
           >
             <span>{contributor.authorName}</span>
-            <span className="text-yellow-400 font-semibold">
+            <span className="text-base-content font-semibold">
               {contributor.totalArticle} Articles
             </span>
           </li>

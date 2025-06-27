@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { FaBars, FaMoon } from "react-icons/fa";
-import { NavLink, Link } from "react-router"; // Correct import
+import { BsToggleOff,BsToggleOn } from "react-icons/bs";
+import { NavLink, Link } from "react-router"; 
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { FaBars } from 'react-icons/fa';
+
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -109,10 +111,13 @@ const Navbar = () => {
             {PrivateLinks}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">
+        <div className="flex items-center">
+           <Link to="/" className="btn btn-ghost text-xl">
           Spread Knowledge
         </Link>
-        <button onClick={handleTheme}><FaMoon/></button>
+        <button onClick={handleTheme}>{theme=== "light" ?<BsToggleOff size={35}/> :<BsToggleOn size={35}/>}</button>
+        </div>
+       
       </div>
 
       <div className="navbar-center hidden lg:flex">

@@ -33,17 +33,17 @@ const AllArticles = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-900">
+      <div className="min-h-screen flex justify-center items-center bg-base-300">
         <span className="loading loading-spinner loading-lg text-blue-500"></span>
       </div>
     );
   }
   return (
-    <div className="min-h-screen  p-4">
+    <div className="min-h-screen bg-base-300 text-base-content p-4">
       <h2 className="text-4xl text-center font-bold mb-8">All Articles</h2>
       <div className="mb-6">
         <select
-          className="select select-bordered "
+          className="select select-bordered bg-base-200 text-base-content"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
@@ -59,7 +59,7 @@ const AllArticles = () => {
         {articles.map((article) => (
           <div
             key={article._id}
-            className="bg-gray-800 p-4 rounded-lg shadow-lg flex flex-col"
+            className="bg-base-200 p-4 rounded-lg shadow-lg flex flex-col"
           >
             <img
               src={article.thumbnail}
@@ -67,13 +67,13 @@ const AllArticles = () => {
               className="h-48 w-full object-cover rounded-md mb-4"
             />
             <h3 className="text-xl font-bold mb-2">{article.title}</h3>
-            <p className=" mb-1">Author: {article.authorName}</p>
-            <p className=" mb-4">
+            <p className="text-base-content mb-1">Author: {article.authorName}</p>
+            <p className="text-base-content mb-4">
               Published on: {new Date(article.date).toLocaleDateString()}
             </p>
             <Link
               to={`/all-articles/${article._id}`}
-              className="mt-auto btn btn-primary  w-full"
+              className="mt-auto btn btn-primary text-base-content w-full"
             >
               Read More
             </Link>

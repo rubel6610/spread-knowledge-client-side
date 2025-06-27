@@ -20,13 +20,13 @@ const FeaturedArticles = () => {
     );
   }
   return (
-    <div className="p-4   mt-4">
+    <div className="p-4 bg-base-300  mt-4">
       <h1 className="text-2xl font-bold my-4">Featured Articles</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {articles.map((article) => (
           <div
             key={article._id}
-            className=" max-h-[500px] rounded-lg shadow-lg p-6 hover:scale-105 duration-300"
+            className="bg-base-200 max-h-[500px] rounded-lg shadow-lg p-6 hover:scale-105 duration-300"
           >
             <img
               src={article.thumbnail}
@@ -34,10 +34,10 @@ const FeaturedArticles = () => {
               className="h-48 w-full object-cover rounded mb-4"
             />
             <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
-            <p className="mb-3">
+            <p className="text-base-content mb-3">
               {article.content.slice(0, 100)}...
             </p>
-            <div className="flex justify-between text-sm ">
+            <div className="flex justify-between text-sm text-base-content">
               <span>By: {article.authorName}</span>
               <span>{article.date}</span>
             </div>

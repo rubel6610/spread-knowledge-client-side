@@ -118,7 +118,7 @@ const MyArticles = () => {
 
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
-            <div className="bg-gray-800 p-6 rounded-lg w-full max-w-lg">
+            <div className="bg-base-200 p-6 rounded-lg w-full max-w-lg">
               <h3 className="text-xl font-bold mb-4 ">Update Article</h3>
               <form onSubmit={handleUpdate}>
                 <div className="mb-4">
