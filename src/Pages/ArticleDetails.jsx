@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import useAuth from '../Hooks/useAuth';
 import Swal from 'sweetalert2';
-import Navbar from '../Components/Navbar';
 
 const ArticleDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(0);
   const [userComment, setUserComment] = useState('');
 
-  // Load article details
+
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BASEURL}/articles/${id}`)
       .then(res => {
@@ -27,16 +28,39 @@ const ArticleDetails = () => {
       });
   }, [id]);
 
-  // handling likes
-  const handleLike = () => { 
+
+  const handleLike = () => {
+    if (!user) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'You must login to like this article!',
+        confirmButtonText: 'Go to Login'
+      }).then(() => {
+        navigate('/login');
+      });
+      return;
+    }
+
     setLikes(likes + 1);
     axios.patch(`${import.meta.env.VITE_BASEURL}/articles/${id}`, { likes: likes })
       .catch(err => console.error(err));
   };
 
-  // Comment handler
+
   const handleComment = (e) => {
     e.preventDefault();
+
+    if (!user) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'You must login to comment!',
+        confirmButtonText: 'Go to Login'
+      }).then(() => {
+        navigate('/login');
+      });
+      return;
+    }
+
     const commentData = {
       articleId: id,
       commenterName: user.displayName,
@@ -44,6 +68,7 @@ const ArticleDetails = () => {
       commentText: userComment,
       commentDate: new Date().toISOString()
     };
+
     axios.post(`${import.meta.env.VITE_BASEURL}/comments`, commentData)
       .then(res => {
         if (res.data.insertedId) {
@@ -55,27 +80,17 @@ const ArticleDetails = () => {
   };
 
   return (
-    <>
-   
-    <div className="min-h-screen  p-6 flex justify-center">
+    <div className="min-h-screen p-6 flex justify-center">
       <div className="max-w-3xl w-full bg-base-200 p-6 rounded-xl">
         <img src={article.thumbnail} alt="" className="w-full object-cover rounded-lg mb-4" />
         <h2 className="text-3xl font-bold mb-2">{article.title}</h2>
-        <p className="mb-2 ">Category: {article.category}</p>
+        <p className="mb-2">Category: {article.category}</p>
         <p className="mb-4">{article.content}</p>
 
         <div className="mb-4 flex gap-2 flex-wrap">
           {article?.separatedTags?.map((tag, index) => (
             <span key={index} className="px-2 py-1 bg-blue-600 rounded-full text-sm">{tag}</span>
           ))}
-        </div>
-
-        <div className="flex items-center gap-3 mb-4">
-          <img src={article.authorPhoto || "https://i.ibb.co/2FsfXqM/default-avatar.png"} alt="Author" className="w-12 h-12 rounded-full" />
-          <div>
-            <h4 className="font-semibold">{article.authorName}</h4>
-            <p className=" text-sm">Published on: {article.date}</p>
-          </div>
         </div>
 
         <div className="flex items-center gap-4 mb-6">
@@ -92,7 +107,7 @@ const ArticleDetails = () => {
             placeholder="Write your comment..."
             value={userComment}
             onChange={(e) => setUserComment(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none mb-2"
+            className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:outline-none mb-2"
           ></textarea>
           <button type="submit" className="btn btn-primary w-full">Post Comment</button>
         </form>
@@ -114,7 +129,6 @@ const ArticleDetails = () => {
 
       </div>
     </div>
-    </>
   );
 };
 

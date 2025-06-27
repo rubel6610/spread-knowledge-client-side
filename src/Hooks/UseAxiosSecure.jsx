@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useEffect } from "react";
 import useAuth from "./useAuth";
@@ -40,6 +39,25 @@ const useAxiosSecure = () => {
               .catch((err) => console.error(err));
           });
         }
+
+        if (error.response?.status === 404) {
+          Swal.fire({
+            icon: "error",
+            title: "Not Found",
+            text: "The requested resource was not found.",
+            confirmButtonColor: "#3085d6",
+          });
+        }
+
+        if (error.response?.status === 504) {
+          Swal.fire({
+            icon: "error",
+            title: "Gateway Timeout",
+            text: "The server took too long to respond. Please try again later.",
+            confirmButtonColor: "#3085d6",
+          });
+        }
+
         return Promise.reject(error);
       }
     );

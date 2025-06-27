@@ -1,12 +1,50 @@
-# React + Vite
+# Spread Knowledge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Purpose
+**Spread Knowledge** is a full-stack web application where users can post, explore, and manage articles across various categories. It promotes knowledge sharing and community engagement through user-generated content.
 
-Currently, two official plugins are available:
+## Live URL
+[Visit  Server Site](https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-rubel6610)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Visit  Client Site](https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-rubel6610)
 
-## Expanding the ESLint configuration
+[Visit  Live Site](https://knowledge-spread.netlify.app)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Key Features
+- 🔒 **Firebase Authentication** (Email/Password & Google Login)
+- 📝 **Post, View, and Manage Articles**
+- 🔐 **Protected Routes for My Articles & Post Article**
+- 🏷️ **Category & Tag-based Filtering**
+- 🌗 **Light/Dark Theme Toggle with Persistence**
+- 🏆 **Top Contributors Section**
+- 🎯 **Editor’s Choice Display**
+- 🛡️ **JWT Token Authentication with Axios Interceptors**
+- 🚫 **Custom 404 Not Found Page**
+- ✅ **SweetAlert2 Popups for Feedback**
+- 📱 **Fully Responsive UI with Tailwind and DaisyUI**
+
+---
+
+## Tech Stack
+- **Frontend:** React, React Router, Tailwind CSS, DaisyUI, Axios, SweetAlert2
+- **Backend:** Node.js, Express.js, MongoDB
+- **Authentication:** Firebase, JWT
+
+
+---
+
+## NPM Packages Used
+- react
+- react-router-dom
+- axios
+- sweetalert2
+- firebase
+- jsonwebtoken
+- cors
+- express
+- mongodb
+- dotenv
+- daisyui
+- tailwindcss
