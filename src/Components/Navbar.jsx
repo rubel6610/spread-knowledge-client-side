@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsToggleOff,BsToggleOn } from "react-icons/bs";
 import { NavLink, Link } from "react-router"; 
 import useAuth from "../Hooks/useAuth";
@@ -90,11 +90,18 @@ const Navbar = () => {
         </>
     ) 
 
-    // handle theme function
+    // handle theme 
+    useEffect(()=>{
+      const savedTheme = localStorage.getItem("theme");
+      document.documentElement.setAttribute("data-theme",savedTheme);
+      setTheme(savedTheme)
+    },[])
+
     const handleTheme = ()=>{
       const newTheme = theme === "light"? "dark":"light"
       document.documentElement.setAttribute("data-theme",newTheme);
       setTheme(newTheme)
+      localStorage.setItem("theme",newTheme)
     }
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -148,11 +155,13 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 shadow rounded-box mt-3 w-52 z-10"
+              className="menu menu-md dropdown-content bg-base-100 shadow rounded-box mt-3 w-52 z-10"
             >
-             {user && PrivateLinks}
+              <li className="ps-6 ">{user.displayName}</li>
+              {user && PrivateLinks}
+             
               <li>
-                <button onClick={handleLogout}>Logout</button>
+                <button className="btn" onClick={handleLogout}>Logout</button>
               </li>
             </ul>
           </div>

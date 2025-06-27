@@ -23,6 +23,7 @@
     "react-modal": "^3.16.3",
     "react-responsive-carousel": "^3.2.23",
     "react-router": "^7.6.2",
+    "react-toastify": "^11.0.5",
     "sweetalert2": "^11.22.0",
     "tailwindcss": "^4.1.10"
   },

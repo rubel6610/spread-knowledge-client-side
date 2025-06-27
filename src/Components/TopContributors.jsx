@@ -1,15 +1,17 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
+import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 
 const TopContributors = () => {
   const [contributors, setContributors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = UseAxiosSecure();
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BASEURL}/topcontributors`).then((res) => {
+    axiosSecure.get(`${import.meta.env.VITE_BASEURL}/topcontributors`).then((res) => {
       setLoading(false);
       setContributors(res.data);
     });
-  }, []);
+  }, [axiosSecure]);
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center bg-base-300">

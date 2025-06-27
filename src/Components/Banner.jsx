@@ -20,10 +20,10 @@ const Banner = () => {
         interval={4000}
       >
         {/* Slide 1 */}
-        <div className="h-[80vh] bg-cover bg-center relative" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1497864149936-d3163f0c0f4b?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}>
+        <div className="h-[80vh] bg-cover bg-center relative" style={{ backgroundImage: `url('https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg')` }}>
           <div className="absolute inset-0  bg-opacity-60 flex flex-col justify-center items-center text-center p-4">
-            <h1 className="text-5xl font-bold mb-4">Share Your Knowledge</h1>
-            <p className="text-lg mb-6 max-w-xl">
+            <h1 className="text-5xl text-base-content font-bold mb-4">Share Your Knowledge</h1>
+            <p className="text-lg text-base-content mb-6 max-w-xl">
               Dive into a world of articles, insights, and shared experiences. Start learning and contributing today!
             </p>
             <button onClick={handleExplore} className="btn btn-primary  px-6 py-2 rounded-lg hover:bg-indigo-700">
@@ -33,10 +33,10 @@ const Banner = () => {
         </div>
 
         {/* Slide 2 */}
-        <div className="h-[80vh] bg-cover bg-center  relative" style={{ backgroundImage: `url('https://plus.unsplash.com/premium_photo-1661767552224-ef72bb6b671f?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}>
+        <div className="h-[80vh] bg-cover bg-center  relative" style={{ backgroundImage: `url('https://images.pexels.com/photos/1374525/pexels-photo-1374525.jpeg')` }}>
           <div className="absolute inset-0  bg-opacity-60 flex flex-col justify-center items-center text-center p-4">
-            <h1 className="text-5xl font-bold mb-4">Inspire Others</h1>
-            <p className="text-lg mb-6 max-w-xl">
+            <h1 className="text-5xl text-base-content font-bold mb-4">Inspire Others</h1>
+            <p className="text-lg text-base-content mb-6 max-w-xl">
               Your stories can change lives. Share your articles and make an impact in your community.
             </p>
             <button onClick={handleExplore} className="btn btn-primary  px-6 py-2 rounded-lg hover:bg-indigo-700">
@@ -46,10 +46,10 @@ const Banner = () => {
         </div>
 
         {/* Slide 3 */}
-        <div className="h-[80vh] bg-cover bg-center relative" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}>
+        <div className="h-[80vh] bg-cover bg-center relative" style={{ backgroundImage: `url('https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg')` }}>
           <div className="absolute inset-0  bg-opacity-60 flex flex-col justify-center items-center text-center p-4">
-            <h1 className="text-5xl font-bold mb-4">Join the Community</h1>
-            <p className="text-lg mb-6 max-w-xl">
+            <h1 className="text-5xl text-base-content font-bold mb-4">Join the Community</h1>
+            <p className="text-lg text-base-content mb-6 max-w-xl">
               Connect with passionate learners and experts. Start your journey with us.
             </p>
             <button onClick={handleExplore} className="btn btn-primary  px-6 py-2 rounded-lg hover:bg-indigo-700">

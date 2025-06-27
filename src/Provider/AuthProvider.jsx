@@ -9,6 +9,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import axios from "axios";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -31,10 +32,21 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
     return signOut(auth);
+    
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+
+      if(currentUser){
+        axios.post(`${import.meta.env.VITE_BASEURL}/jwt`, {email:currentUser.email})
+        .then(res=>{
+          localStorage.setItem("token", res.data.token);
+        })
+         
+        
+      } 
       setUser(currentUser);
       setLoading(false);
     });

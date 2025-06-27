@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const FeaturedArticles = () => {
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,11 @@ const FeaturedArticles = () => {
   }
   return (
     <div className="p-4 bg-base-300  mt-4">
-      <h1 className="text-2xl font-bold my-4">Featured Articles</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold ">Featured Articles</h1>
+        <NavLink to="/all-articles" className="font-semibold mr-3 text-lg text-base-content hover:underline rounded px-4 py-2">See All</NavLink>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {articles.map((article) => (
           <div

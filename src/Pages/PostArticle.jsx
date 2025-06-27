@@ -60,7 +60,7 @@ const PostArticle = () => {
 
     
       <div className="min-h-screen flex items-center justify-center bg-base-300 p-4">
-        <div className="bg-base-200 p-8 rounded-2xl shadow-lg w-full max-w-2xl">
+        <div className="bg-base-100 p-8 rounded-2xl shadow-lg w-full max-w-2xl">
           <h2 className="text-3xl font-bold text-center text-base-content mb-6">
             Post New Article
           </h2>
