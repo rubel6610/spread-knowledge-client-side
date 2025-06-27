@@ -1,18 +1,18 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
-import Banner from './../Components/Banner';
-import FeaturedArticles from './../Components/FeaturedArticles';
-import EditorChoice from './../Components/EditorChoice';
+import Home from '../Pages/Home'
+import { Outlet } from 'react-router'
+import Footer from '../Components/Footer'
+
+
 
 
 const Root = () => {
   return (
     <>
       <Navbar/>
-      <Banner/>
-      <FeaturedArticles/>
-      <EditorChoice/>
-  
+     <Outlet/>
+     <Footer/>
     </>
  
   )

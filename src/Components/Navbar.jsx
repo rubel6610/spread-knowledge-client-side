@@ -1,11 +1,12 @@
-import React from "react";
-import { FaBars } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaBars, FaMoon } from "react-icons/fa";
 import { NavLink, Link } from "react-router"; // Correct import
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const [theme,setTheme]=useState("light");
   const handleLogout = () => {
     logout()
       .then(() => {
@@ -51,7 +52,7 @@ const Navbar = () => {
      
       <li>
         <NavLink
-          to="/about-us"
+          to="/about"
           className={({ isActive }) =>
             isActive ? "text-blue-500 font-bold" : ""
           }
@@ -87,6 +88,12 @@ const Navbar = () => {
         </>
     ) 
 
+    // handle theme function
+    const handleTheme = ()=>{
+      const newTheme = theme === "light"? "dark":"light"
+      document.documentElement.setAttribute("data-theme",newTheme);
+      setTheme(newTheme)
+    }
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -105,6 +112,7 @@ const Navbar = () => {
         <Link to="/" className="btn btn-ghost text-xl">
           Spread Knowledge
         </Link>
+        <button onClick={handleTheme}><FaMoon/></button>
       </div>
 
       <div className="navbar-center hidden lg:flex">

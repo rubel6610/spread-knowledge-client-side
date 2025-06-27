@@ -11,7 +11,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="text-white">
+    <div className="">
       <Carousel
         autoPlay
         infiniteLoop
@@ -26,7 +26,7 @@ const Banner = () => {
             <p className="text-lg mb-6 max-w-xl">
               Dive into a world of articles, insights, and shared experiences. Start learning and contributing today!
             </p>
-            <button onClick={handleExplore} className="btn btn-primary text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
+            <button onClick={handleExplore} className="btn btn-primary  px-6 py-2 rounded-lg hover:bg-indigo-700">
               Explore Articles
             </button>
           </div>
@@ -39,7 +39,7 @@ const Banner = () => {
             <p className="text-lg mb-6 max-w-xl">
               Your stories can change lives. Share your articles and make an impact in your community.
             </p>
-            <button onClick={handleExplore} className="btn btn-primary text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
+            <button onClick={handleExplore} className="btn btn-primary  px-6 py-2 rounded-lg hover:bg-indigo-700">
               Explore Articles
             </button>
           </div>
@@ -52,7 +52,7 @@ const Banner = () => {
             <p className="text-lg mb-6 max-w-xl">
               Connect with passionate learners and experts. Start your journey with us.
             </p>
-            <button onClick={handleExplore} className="btn btn-primary text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
+            <button onClick={handleExplore} className="btn btn-primary  px-6 py-2 rounded-lg hover:bg-indigo-700">
               Explore Articles
             </button>
           </div>

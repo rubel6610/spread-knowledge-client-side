@@ -2,7 +2,7 @@ import React from "react";
 import useAuth from "../Hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Navbar from "../Components/Navbar";
+
 
 const PostArticle = () => {
   const { user } = useAuth();
@@ -58,15 +58,15 @@ const PostArticle = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+    
+      <div className="min-h-screen flex items-center justify-center p-4">
         <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-2xl">
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
+          <h2 className="text-3xl font-bold text-center  mb-6">
             Post New Article
           </h2>
           <form onSubmit={handlePost}>
             <div className="mb-4">
-              <label htmlFor="title" className="block text-gray-300 mb-2">
+              <label htmlFor="title" className="block mb-2">
                 Title
               </label>
               <input
@@ -75,12 +75,12 @@ const PostArticle = () => {
                 id="title"
                 placeholder="Enter article title"
                 required
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
+                className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none"
               />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="content" className="block text-gray-300 mb-2">
+              <label htmlFor="content" className="block mb-2">
                 Content
               </label>
               <textarea
@@ -89,19 +89,19 @@ const PostArticle = () => {
                 rows="6"
                 required
                 placeholder="Write your article here..."
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
+                className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none"
               ></textarea>
             </div>
 
             <div className="mb-4">
-              <label htmlFor="category" className="block text-gray-300 mb-2">
+              <label htmlFor="category" className="block mb-2">
                 Category
               </label>
               <select
                 name="category"
                 id="category"
                 required
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
+                className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none"
               >
                 <option value="">Select Category</option>
                 <option value="Technology">Technology</option>
@@ -112,7 +112,7 @@ const PostArticle = () => {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="tags" className="block text-gray-300 mb-2">
+              <label htmlFor="tags" className="block mb-2">
                 Tags (Use Comma For Separate)
               </label>
               <input
@@ -120,12 +120,12 @@ const PostArticle = () => {
                 name="tags"
                 id="tags"
                 placeholder="e.g. React, JavaScript, Web Development"
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
+                className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none"
               />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="thumbnail" className="block text-gray-300 mb-2">
+              <label htmlFor="thumbnail" className="block mb-2">
                 Thumbnail URL
               </label>
               <input
@@ -134,12 +134,12 @@ const PostArticle = () => {
                 id="thumbnail"
                 placeholder="Enter thumbnail image URL"
                 required
-                className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none"
+                className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none"
               />
             </div>
 
             <div className="py-2 rounded-xl mb-4">
-              <legend className="text-gray-300 mb-2 text-center">
+              <legend className="mb-2 text-center">
                 Logged In User
               </legend>
               <div className="flex flex-col gap-2">
@@ -166,7 +166,7 @@ const PostArticle = () => {
 
             <button
               type="submit"
-              className="w-full btn btn-primary text-white py-2 my-2 rounded-lg font-semibold transition duration-300"
+              className="w-full btn btn-primary  py-2 my-2 rounded-lg font-semibold transition duration-300"
             >
               Post Article
             </button>

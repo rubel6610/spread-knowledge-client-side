@@ -10,7 +10,7 @@ const EditorChoice = () => {
     });
   }, []);
   return (
-    <div className="p-4 bg-gray-900 text-white mt-4">
+    <div className="p-4  mt-4">
       <h2 className="text-2xl font-bold mb-4">Editor's Choice</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {articles.map((article) => (
@@ -21,10 +21,10 @@ const EditorChoice = () => {
               className="w-full h-40 object-cover mb-4 rounded"
             />
             <h3 className="text-md font-bold mb-2">{article.title}</h3>
-            <p className="text-gray-400 mb-2">Author: {article.authorName}</p>
+            <p className=" mb-2">Author: {article.authorName}</p>
             <p className="text-gray-300">{article.content.slice(0, 80)}...</p>
              <Link to={`/all-articles/${article._id}`}
-              className="mt-2 btn btn-primary text-white w-full"
+              className="mt-2 btn btn-primary  w-full"
             >
               Read More
             </Link>

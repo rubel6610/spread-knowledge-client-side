@@ -56,12 +56,12 @@ const ArticleDetails = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="min-h-screen bg-gray-900 text-white p-6 flex justify-center">
+   
+    <div className="min-h-screen  p-6 flex justify-center">
       <div className="max-w-3xl w-full bg-gray-800 p-6 rounded-xl">
         <img src={article.thumbnail} alt="" className="w-full object-cover rounded-lg mb-4" />
         <h2 className="text-3xl font-bold mb-2">{article.title}</h2>
-        <p className="mb-2 text-gray-400">Category: {article.category}</p>
+        <p className="mb-2 ">Category: {article.category}</p>
         <p className="mb-4">{article.content}</p>
 
         <div className="mb-4 flex gap-2 flex-wrap">
@@ -74,7 +74,7 @@ const ArticleDetails = () => {
           <img src={article.authorPhoto || "https://i.ibb.co/2FsfXqM/default-avatar.png"} alt="Author" className="w-12 h-12 rounded-full" />
           <div>
             <h4 className="font-semibold">{article.authorName}</h4>
-            <p className="text-gray-400 text-sm">Published on: {article.date}</p>
+            <p className=" text-sm">Published on: {article.date}</p>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ const ArticleDetails = () => {
             placeholder="Write your comment..."
             value={userComment}
             onChange={(e) => setUserComment(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none mb-2"
+            className="w-full px-4 py-2 border border-gray-600  rounded-lg focus:outline-none mb-2"
           ></textarea>
           <button type="submit" className="btn btn-primary w-full">Post Comment</button>
         </form>
