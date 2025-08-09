@@ -3,17 +3,20 @@ import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import useAuth from '../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../Hooks/UseAxiosSecure';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ArticleDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(0);
   const [userComment, setUserComment] = useState('');
-
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BASEURL}/articles/${id}`)
@@ -28,7 +31,6 @@ const ArticleDetails = () => {
       });
   }, [id]);
 
-
   const handleLike = () => {
     if (!user) {
       Swal.fire({
@@ -41,11 +43,13 @@ const ArticleDetails = () => {
       return;
     }
 
-    setLikes(likes + 1);
-    axios.patch(`${import.meta.env.VITE_BASEURL}/articles/${id}`, { likes: likes })
-      .catch(err => console.error(err));
+    setLikes(prev => {
+      const updatedLikes = prev + 1;
+      axiosSecure.patch(`${import.meta.env.VITE_BASEURL}/articles/${id}`, { likes: updatedLikes })
+        .catch(err => console.error(err));
+      return updatedLikes;
+    });
   };
-
 
   const handleComment = (e) => {
     e.preventDefault();
@@ -69,11 +73,12 @@ const ArticleDetails = () => {
       commentDate: new Date().toISOString()
     };
 
-    axios.post(`${import.meta.env.VITE_BASEURL}/comments`, commentData)
+    axiosSecure.post(`${import.meta.env.VITE_BASEURL}/comments`, commentData)
       .then(res => {
         if (res.data.insertedId) {
           setComments([...comments, commentData]);
           setUserComment('');
+          toast.success('Commented successfully!');
         }
       })
       .catch(err => console.error(err));
@@ -127,6 +132,18 @@ const ArticleDetails = () => {
           ))}
         </div>
 
+        {/* Add ToastContainer here */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
     </div>
   );

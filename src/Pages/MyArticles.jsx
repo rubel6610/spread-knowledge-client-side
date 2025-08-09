@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../Hooks/useAuth";
-import axios from "axios";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 
@@ -12,19 +11,27 @@ const MyArticles = () => {
   const [loading, setLoading] = useState(true);
   const axiosSecure = UseAxiosSecure();
 
+  // Fetch user's articles
   useEffect(() => {
+    if (!user?.email) return;
     axiosSecure
-      .get(`${import.meta.env.VITE_BASEURL}/myarticles?email=${user?.email}`)
+      .get(`/myarticles?email=${user.email}`)
       .then((res) => {
         setMyArticles(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        Swal.fire("Error", "Failed to fetch your articles.", "error");
         setLoading(false);
       });
   }, [user?.email, axiosSecure]);
 
+  // Delete article
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -32,52 +39,50 @@ const MyArticles = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`${import.meta.env.VITE_BASEURL}/myarticles/${id}`)
+        axiosSecure
+          .delete(`/myarticles/${id}`)
           .then((res) => {
             if (res.data.deletedCount > 0) {
+              setMyArticles((prev) => prev.filter((a) => a._id !== id));
               Swal.fire("Deleted!", "Your article has been deleted.", "success");
-              setMyArticles(myArticles.filter((a) => a._id !== id));
             }
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire("Error", "Failed to delete article.", "error");
           });
       }
     });
   };
 
+  // Open modal for editing
   const handleEdit = (article) => {
     setSelectedArticle(article);
     setShowModal(true);
   };
 
+  // Update article
   const handleUpdate = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const { title, category, tags, thumbnail, content } = Object.fromEntries(
-      formData.entries()
-    );
-    const separatedTags = tags.split(",").map((tag) => tag.trim());
-
-    const { _id, ...UpdatedArticleData } = {
-      title,
-      category,
-      tags: separatedTags,
-      thumbnail,
-      content,
+    const formData = new FormData(e.target);
+    const updatedData = {
+      title: formData.get("title"),
+      category: formData.get("category"),
+      tags: formData.get("tags").split(",").map((tag) => tag.trim()),
+      thumbnail: formData.get("thumbnail"),
+      content: formData.get("content"),
       date: new Date().toLocaleDateString(),
     };
 
-    axios
-      .put(
-        `${import.meta.env.VITE_BASEURL}/updatearticles/${selectedArticle._id}`,
-        UpdatedArticleData
-      )
+    axiosSecure
+      .put(`/updatearticles/${selectedArticle._id}`, updatedData)
       .then((res) => {
-        if (res.data.modifiedCount) {
-          const updatedList = myArticles.map((a) =>
-            a._id === selectedArticle._id ? { ...a, ...UpdatedArticleData } : a
+        if (res.data.modifiedCount > 0) {
+          setMyArticles((prev) =>
+            prev.map((a) =>
+              a._id === selectedArticle._id ? { ...a, ...updatedData } : a
+            )
           );
-          setMyArticles(updatedList);
           Swal.fire({
             icon: "success",
             title: "Article Updated Successfully!",
@@ -86,6 +91,10 @@ const MyArticles = () => {
           });
           setShowModal(false);
         }
+      })
+      .catch((err) => {
+        console.error(err);
+        Swal.fire("Error", "Failed to update article.", "error");
       });
   };
 
@@ -99,9 +108,6 @@ const MyArticles = () => {
 
   return (
     <div className="min-h-screen p-4">
-    
-
-      {/* Cards Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {myArticles.map((article) => (
           <div
@@ -136,19 +142,16 @@ const MyArticles = () => {
         ))}
       </div>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
+      {/* Update Modal */}
+      {showModal && selectedArticle && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
           <div className="bg-base-200 p-6 rounded-lg w-full max-w-lg">
             <h3 className="text-xl font-bold mb-4">Update Article</h3>
             <form onSubmit={handleUpdate}>
               <div className="mb-4">
-                <label htmlFor="title" className="block mb-1">
-                  Title
-                </label>
+                <label className="block mb-1">Title</label>
                 <input
                   type="text"
-                  id="title"
                   name="title"
                   defaultValue={selectedArticle.title}
                   required
@@ -157,12 +160,9 @@ const MyArticles = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="category" className="block mb-2">
-                  Category
-                </label>
+                <label className="block mb-2">Category</label>
                 <select
                   name="category"
-                  id="category"
                   defaultValue={selectedArticle.category}
                   required
                   className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:outline-none"
@@ -176,25 +176,19 @@ const MyArticles = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="tags" className="block mb-2">
-                  Tags (comma separated)
-                </label>
+                <label className="block mb-2">Tags (comma separated)</label>
                 <input
                   type="text"
                   name="tags"
-                  id="tags"
                   defaultValue={selectedArticle.tags?.join(",")}
                   className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:outline-none"
                 />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="thumbnail" className="block mb-1">
-                  Thumbnail URL
-                </label>
+                <label className="block mb-1">Thumbnail URL</label>
                 <input
                   type="text"
-                  id="thumbnail"
                   name="thumbnail"
                   defaultValue={selectedArticle.thumbnail}
                   required
@@ -203,11 +197,8 @@ const MyArticles = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="content" className="block mb-1">
-                  Content
-                </label>
+                <label className="block mb-1">Content</label>
                 <textarea
-                  id="content"
                   name="content"
                   defaultValue={selectedArticle.content}
                   required
