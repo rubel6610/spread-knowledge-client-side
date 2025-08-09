@@ -87,7 +87,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 mb-16 shadow-sm fixed px-4 top-0 left-0 right-0 z-40">
+    <div className="navbar bg-base-100  shadow-sm fixed px-4 top-0 left-0 right-0 z-40">
       {/* Left: Drawer toggle (Mobile) */}
       <div className="navbar-start">
         <button onClick={openDrawer} className="btn btn-ghost lg:hidden">
