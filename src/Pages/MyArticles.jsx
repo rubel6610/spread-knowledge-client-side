@@ -144,9 +144,9 @@ const MyArticles = () => {
 
       {/* Update Modal */}
       {showModal && selectedArticle && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
-          <div className="bg-base-200 p-6 rounded-lg w-full max-w-lg">
-            <h3 className="text-xl font-bold mb-4">Update Article</h3>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50 ">
+          <div className="bg-base-200 p-6 rounded-lg w-full max-w-lg max-h-[80vh] overflow-auto">
+            <h3 className="text-xl font-bold mb-4  ">Update Article</h3>
             <form onSubmit={handleUpdate}>
               <div className="mb-4">
                 <label className="block mb-1">Title</label>
@@ -165,7 +165,7 @@ const MyArticles = () => {
                   name="category"
                   defaultValue={selectedArticle.category}
                   required
-                  className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2 border bg-base-100 border-gray-600 rounded-lg focus:outline-none"
                 >
                   <option value="">Select Category</option>
                   <option value="Technology">Technology</option>
@@ -180,7 +180,7 @@ const MyArticles = () => {
                 <input
                   type="text"
                   name="tags"
-                  defaultValue={selectedArticle.tags?.join(",")}
+                  defaultValue={selectedArticle.separatedTags?.join(",")}
                   className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:outline-none"
                 />
               </div>

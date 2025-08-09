@@ -1,12 +1,11 @@
 import React from "react";
 import useAuth from "../Hooks/useAuth";
-import axios from "axios";
 import Swal from "sweetalert2";
-
+import useAxiosSecure from "../Hooks/UseAxiosSecure";
 
 const PostArticle = () => {
   const { user } = useAuth();
-
+const axiosSecure = useAxiosSecure();
   const handlePost = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -27,7 +26,7 @@ const PostArticle = () => {
       authorName: user.displayName,
     };
 
-    axios
+    axiosSecure
       .post(`${import.meta.env.VITE_BASEURL}/articles`, articleData)
       .then((res) => {
         if (res.data.insertedId) {
