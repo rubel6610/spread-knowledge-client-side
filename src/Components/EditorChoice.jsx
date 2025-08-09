@@ -20,9 +20,9 @@ const EditorChoice = () => {
               alt={article.title}
               className="w-full h-40 object-cover mb-4 rounded"
             />
-            <h3 className="text-md font-bold mb-2">{article.title}</h3>
+            <h3 className="text-sm font-bold mb-2">{article.title}</h3>
             <p className="text-base-content mb-2">Author: {article.authorName}</p>
-            <p className="text-base-content">{article.content.slice(0, 80)}...</p>
+            <p className="text-base-content text-xs">{article.content.slice(0, 80)}...</p>
              <Link to={`/all-articles/${article._id}`}
               className="mt-2 btn btn-primary text-base-content w-full"
             >

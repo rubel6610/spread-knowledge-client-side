@@ -41,7 +41,7 @@ const AllArticles = () => {
   return (
     <div className="min-h-screen bg-base-300 text-base-content p-4">
       <h2 className="text-4xl text-center font-bold mb-8">All Articles</h2>
-      <div className="mb-6">
+      <div className="flex justify-end">
         <select
           className="select select-bordered bg-base-200 text-base-content"
           value={selectedCategory}
@@ -66,7 +66,7 @@ const AllArticles = () => {
               alt={article.title}
               className="h-48 w-full object-cover rounded-md mb-4"
             />
-            <h3 className="text-xl font-bold mb-2">{article.title}</h3>
+            <h3 className="text-md font-bold mb-2">{article.title}</h3>
             <p className="text-base-content mb-1">Author: {article.authorName}</p>
             <p className="text-base-content mb-4">
               Published on: {new Date(article.date).toLocaleDateString()}

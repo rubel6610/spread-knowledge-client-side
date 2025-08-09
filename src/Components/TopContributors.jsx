@@ -20,7 +20,7 @@ const TopContributors = () => {
     );
   }
   return (
-    <div className="bg-base-300  p-6 rounded-lg shadow-md">
+    <div className="bg-base-300  p-6 rounded-lg shadow-md mt-4">
       <h2 className="text-2xl font-bold mb-4 text-center">Top Contributors</h2>
       <ul className="space-y-3">
         {contributors.map((contributor, index) => (

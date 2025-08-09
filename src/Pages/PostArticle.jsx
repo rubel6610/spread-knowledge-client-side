@@ -88,7 +88,8 @@ const PostArticle = () => {
                 id="content"
                 rows="6"
                 required
-                placeholder="Write your article here..."
+                minLength={50}
+                placeholder="Write your article here...(max 50 characters )"
                 className="w-full px-4 py-2 border border-gray-600 bg-base-200 text-base-content  rounded-lg focus:outline-none"
               ></textarea>
             </div>

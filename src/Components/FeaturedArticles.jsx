@@ -37,13 +37,13 @@ const FeaturedArticles = () => {
               alt={article.title}
               className="h-48 w-full object-cover rounded mb-4"
             />
-            <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
-            <p className="text-base-content mb-3">
+            <h3 className="text-sm font-bold mb-2">{article.title}</h3>
+            <p className="text-base-content text-xs mb-3">
               {article.content.slice(0, 100)}...
             </p>
             <div className="flex justify-between text-sm text-base-content">
-              <span>By: {article.authorName}</span>
-              <span>{article.date}</span>
+              <strong>By: {article.authorName}</strong>
+              <span>{article.date.split("T")[0]}</span>
             </div>
             <Link
               to={`/all-articles/${article._id}`}

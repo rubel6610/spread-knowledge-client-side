@@ -12,27 +12,39 @@ import NotFound from "../Components/NotFound";
 import Home from "../Pages/Home";
 import AboutUs from "../Pages/AboutUs";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     children: [
       {
-        index:true,
-        element:<Home/>,
+        index: true,
+        element: <Home />,
       },
       { path: "/all-articles", element: <AllArticles /> },
       { path: "/all-articles/:id", element: <ArticleDetails /> },
-      { path: "/my-articles", element: <PrivateRoutes><MyArticles /></PrivateRoutes> },
-      { path: "/post-article", element: <PrivateRoutes><PostArticle /></PrivateRoutes> },
+      {
+        path: "/my-articles",
+        element: (
+          <PrivateRoutes>
+            <MyArticles />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/post-article",
+        element: (
+          <PrivateRoutes>
+            <PostArticle />
+          </PrivateRoutes>
+        ),
+      },
       { path: "/category/:category", element: <Category /> },
-      { path: "/about", element: <AboutUs /> }
-
-    ]
+      { path: "/about", element: <AboutUs /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+    ],
   },
-  
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-  { path: "*", element: <NotFound /> }
+
+  { path: "*", element: <NotFound /> },
 ]);

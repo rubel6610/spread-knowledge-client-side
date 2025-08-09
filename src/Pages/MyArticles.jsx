@@ -9,14 +9,16 @@ const MyArticles = () => {
   const [myArticles, setMyArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading,setLoading]=useState(true)
   const axiosSecure = UseAxiosSecure();
   useEffect(() => {
     axiosSecure
       .get(`${import.meta.env.VITE_BASEURL}/myarticles?email=${user?.email}`)
       .then((res) => {
         setMyArticles(res.data);
+        setLoading(false);
       });
-  }, [user?.email]);
+  }, [user?.email,axiosSecure]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -96,6 +98,13 @@ const MyArticles = () => {
         }
       });
   };
+   if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-base-300">
+        <span className="loading loading-spinner loading-lg text-blue-500"></span>
+      </div>
+    );
+  }
   return (
     <div>
       <div className="min-h-screen p-4 ">
