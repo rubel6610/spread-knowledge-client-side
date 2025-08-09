@@ -40,7 +40,6 @@ const AllArticles = () => {
   }
   return (
     <div className="min-h-screen bg-base-300 text-base-content p-4">
-      <h2 className="text-4xl text-center font-bold mb-8">All Articles</h2>
       <div className="flex justify-end mb-2">
         <select
           className="select select-bordered bg-base-200 text-base-content"
