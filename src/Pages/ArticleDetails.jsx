@@ -126,7 +126,7 @@ const ArticleDetails = () => {
               <div>
                 <h4 className="font-semibold">{comment.commenterName}</h4>
                 <p className="text-gray-300">{comment.commentText}</p>
-                <p className="text-gray-500 text-sm">{comment.commentDate}</p>
+                <p className="text-gray-500 text-sm">{comment.commentDate.split('T')[0]}</p>
               </div>
             </div>
           ))}

@@ -108,7 +108,7 @@ const MyArticles = () => {
 
   return (
     <div className="min-h-screen p-4">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {myArticles.map((article) => (
           <div
             key={article._id}
@@ -120,7 +120,7 @@ const MyArticles = () => {
               className="h-40 w-full object-cover"
             />
             <div className="p-4 flex flex-col flex-grow">
-              <h3 className="text-lg font-bold">{article.title}</h3>
+              <h3 className="text-md font-bold">{article.title}</h3>
               <p className="text-sm text-gray-500">{article.category}</p>
               <p className="text-xs text-gray-400 mb-2">{article.date}</p>
               <div className="mt-auto flex gap-2">
