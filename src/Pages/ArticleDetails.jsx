@@ -89,7 +89,21 @@ const ArticleDetails = () => {
       <div className="max-w-3xl w-full bg-base-200 p-6 rounded-xl">
         <img src={article.thumbnail} alt="" className="w-full object-cover rounded-lg mb-4" />
         <h2 className="text-3xl font-bold mb-2">{article.title}</h2>
-        <p className="mb-2">Category: {article.category}</p>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <p className="mb-1">Category: {article.category}</p>
+            <p className="mb-1">Author: {article.authorName}</p>
+            <p className="text-sm text-gray-500">Email: {article.authorEmail}</p>
+          </div>
+          {user && article.authorEmail && article.authorEmail !== user.email && (
+            <button
+              onClick={() => navigate('/dashboard', { state: { activeTab: 'chat', chatWithEmail: article.authorEmail } })}
+              className="btn btn-primary btn-sm"
+            >
+              💬 Chat with Author
+            </button>
+          )}
+        </div>
         <p className="mb-4">{article.content}</p>
 
         <div className="mb-4 flex gap-2 flex-wrap">

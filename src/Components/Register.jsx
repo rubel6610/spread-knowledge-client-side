@@ -40,7 +40,8 @@ const Register = () => {
             const newUser = {
               email: user.email,
               userName: name,
-              photoURL: photo,
+              photoURL: photo || '',
+              bio: '',
               createdAt: new Date(),
             };
 
@@ -73,8 +74,9 @@ const Register = () => {
         const user = result.user;
         const newUser = {
           email: user.email,
-          userName: user.displayName,
-          photoURL: user.photoURL,
+          userName: user.displayName || 'Anonymous',
+          photoURL: user.photoURL || '',
+          bio: '',
           createdAt: new Date(),
         };
 
@@ -86,6 +88,10 @@ const Register = () => {
               showConfirmButton: false,
               timer: 1500,
             });
+            navigate("/");
+          })
+          .catch(error => {
+            console.error('Error saving user:', error);
             navigate("/");
           });
       })

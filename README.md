@@ -27,10 +27,35 @@
 
 ---
 
-## Tech Stack
-- **Frontend:** React, React Router, Tailwind CSS, DaisyUI, Axios, SweetAlert2
-- **Backend:** Node.js, Express.js, MongoDB
-- **Authentication:** Firebase, JWT
+📝 **Article Management**
+- Add, Edit, and Delete your own posts  
+- Browse articles by **category** and **tags**
+
+👥 **Dashboard Management**
+- Personalized dashboard for users and admins  
+- Manage all posts and monitor platform activity
+
+💬 **Real-time Interaction**
+- Integrated **Socket.IO** for live notifications and updates  
+- Instant feedback when new articles are published
+🎨 **UI & UX Features**
+- Responsive design built with **Tailwind CSS** and **DaisyUI**  
+- **Dark/Light Theme Toggle** with local storage persistence  
+- Interactive **SweetAlert2 popups** for success/error feedback  
+- Custom **404 Not Found** page  
+
+🏆 **Community Highlights**
+- **Top Contributors** and **Editor’s Choice** sections  
+- Encourages engagement and recognitio
+
+## 🧩 Tech Stack
+
+| Category | Technologies |
+|-----------|---------------|
+| **Frontend** | React, React Router, Tailwind CSS, DaisyUI, Axios, SweetAlert2 |
+| **Backend** | Node.js, Express.js, MongoDB, Socket.IO |
+| **Authentication** | Firebase Authentication, JWT |
+| **Hosting** | Netlify (Client), Render (Server) |
 
 
 ---
@@ -48,3 +73,4 @@
 - dotenv
 - daisyui
 - tailwindcss
+- socket.io

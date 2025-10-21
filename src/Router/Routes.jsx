@@ -11,6 +11,8 @@ import Category from "../Pages/Category";
 import NotFound from "../Components/NotFound";
 import Home from "../Pages/Home";
 import AboutUs from "../Pages/AboutUs";
+import UserDashboard from "../Pages/UserDashboard";
+import Profile from "../Pages/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,22 @@ export const router = createBrowserRouter([
       },
       { path: "/all-articles", element: <AllArticles /> },
       { path: "/all-articles/:id", element: <ArticleDetails /> },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoutes>
+            <UserDashboard />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoutes>
+            <Profile />
+          </PrivateRoutes>
+        ),
+      },
       {
         path: "/my-articles",
         element: (

@@ -3,13 +3,15 @@ import './index.css'
 import { RouterProvider } from 'react-router'
 import { router } from './Router/Routes'
 import AuthProvider from './Provider/AuthProvider'
+import SocketProvider from './Provider/SocketProvider'
 
 
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
-
-    <RouterProvider router={router}></RouterProvider>
+    <SocketProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </SocketProvider>
   </AuthProvider>
  
 )

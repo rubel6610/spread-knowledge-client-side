@@ -52,13 +52,13 @@ const Navbar = () => {
   const PrivateLinks = (
     <>
       <li>
-        <NavLink to="/my-articles" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : ""}>
-          My Articles
+        <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : ""}>
+          Dashboard
         </NavLink>
       </li>
       <li>
-        <NavLink to="/post-article" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : ""}>
-          Post Article
+        <NavLink to="/profile" className={({ isActive }) => isActive ? "text-blue-500 font-bold" : ""}>
+          My Profile
         </NavLink>
       </li>
     </>
@@ -116,17 +116,38 @@ const Navbar = () => {
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src={user?.photoURL || "userPhoto"} alt="User" />
+                {user?.photoURL ? (
+                  <img src={user.photoURL} alt="User" />
+                ) : (
+                  <div className="bg-primary text-primary-content flex items-center justify-center w-full h-full rounded-full text-lg">
+                    {user?.displayName?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                )}
               </div>
             </div>
             <ul
               tabIndex={0}
               className="menu menu-md dropdown-content bg-base-100 shadow rounded-box mt-3 w-52 z-10"
             >
-              <li className=""><a>{user.displayName}</a></li>
+              <li className="menu-title">
+                <div className="flex items-center gap-2 px-4 py-2">
+                  <div className="avatar">
+                    <div className="w-8 h-8 rounded-full">
+                      {user?.photoURL ? (
+                        <img src={user.photoURL} alt="User" />
+                      ) : (
+                        <div className="bg-primary text-primary-content flex items-center justify-center w-full h-full rounded-full text-sm">
+                          {user?.displayName?.charAt(0)?.toUpperCase() || 'U'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="font-semibold">{user.displayName || 'User'}</span>
+                </div>
+              </li>
               {PrivateLinks}
               <li>
-                <button className="btn" onClick={handleLogout}>Logout</button>
+                <button className="btn btn-sm" onClick={handleLogout}>Logout</button>
               </li>
             </ul>
           </div>

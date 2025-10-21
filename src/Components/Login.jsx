@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
-import useAuth from "../Hooks/useAuth"; // তোমার custom hook
+import useAuth from "../Hooks/useAuth";
+import axios from "axios";
 
 const Login = () => {
   const { loginUser, googlesignIn } = useAuth();
@@ -37,14 +38,37 @@ const Login = () => {
 
   const handleGoogle = () => {
     googlesignIn()
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Sign-In Success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
+      .then((result) => {
+        const user = result.user;
+        // Save user data if not already in database
+        const newUser = {
+          email: user.email,
+          userName: user.displayName || 'Anonymous',
+          photoURL: user.photoURL || '',
+          bio: '',
+          createdAt: new Date(),
+        };
+
+        axios.post(`${import.meta.env.VITE_BASEURL}/user`, newUser)
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Sign-In Success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          })
+          .catch(() => {
+            // User might already exist, just navigate
+            Swal.fire({
+              icon: "success",
+              title: "Sign-In Success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          });
       })
       .catch((err) => {
         Swal.fire({
