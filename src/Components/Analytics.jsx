@@ -2,6 +2,7 @@ import  { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import useAuth from '../Hooks/useAuth';
 import UseAxiosSecure from '../Hooks/UseAxiosSecure';
+import NoDataFound from './NoDataFound';
 
 const Analytics = () => {
   const { user } = useAuth();
@@ -34,11 +35,15 @@ const Analytics = () => {
     );
   }
 
-  if (!analytics) {
+  if (!analytics || analytics.totalArticles === 0) {
     return (
-      <div className="text-center py-10">
-        <p className="text-lg text-gray-600">No analytics data available</p>
-      </div>
+      <NoDataFound 
+        message="No Analytics Data Available" 
+        description="Start posting articles to see your analytics dashboard!" 
+        showButton={true}
+        buttonText="Post Your First Article"
+        buttonLink="/post-article"
+      />
     );
   }
 

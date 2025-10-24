@@ -3,6 +3,7 @@ import useAuth from "../Hooks/useAuth";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import { SocketContext } from "../Provider/SocketProvider";
 import { useLocation } from "react-router";
+import NoDataFound from "./NoDataFound";
 
 const Chat = () => {
   const { user } = useAuth();
@@ -20,6 +21,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
   const [emailInput, setEmailInput] = useState("");
   const [emailSearchLoading, setEmailSearchLoading] = useState(false);
+  const [conversationSearchQuery, setConversationSearchQuery] = useState("");
 
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
@@ -234,6 +236,18 @@ const Chat = () => {
     return users.find((u) => u.email !== user.email && conv.participants.includes(u.email));
   };
 
+  // Filter conversations based on search query
+  const filteredConversations = conversations.filter((conv) => {
+    const chatUser = getUserFromConversation(conv);
+    if (!chatUser) return false;
+    
+    const searchLower = conversationSearchQuery.toLowerCase();
+    const displayName = (chatUser.displayName || chatUser.email).toLowerCase();
+    const email = chatUser.email.toLowerCase();
+    
+    return displayName.includes(searchLower) || email.includes(searchLower);
+  });
+
   if (loading)
     return (
       <div className="flex justify-center items-center min-h-[400px]">
@@ -249,78 +263,123 @@ const Chat = () => {
           <h3 className="text-xl font-bold">💬 Chats</h3>
           <p className="text-sm text-gray-500 mb-3">{onlineUsers.length} online</p>
           
-          {/* Email Search */}
-          <div className="flex gap-2">
-            <input
-              type="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleEmailSearch()}
-              placeholder="Enter email to chat..."
-              className="input input-bordered input-sm flex-1"
-            />
-            <button
-              onClick={handleEmailSearch}
-              disabled={emailSearchLoading}
-              className="btn btn-sm btn-primary"
-            >
-              {emailSearchLoading ? <span className="loading loading-spinner loading-xs"></span> : 'Chat'}
-            </button>
+          {/* Add New Chat by Email */}
+          <div className="mb-3">
+            <label className="text-xs font-semibold text-base-content/70 mb-1 block">Start New Chat</label>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleEmailSearch()}
+                placeholder="Enter email to chat..."
+                className="input input-bordered input-sm flex-1"
+              />
+              <button
+                onClick={handleEmailSearch}
+                disabled={emailSearchLoading}
+                className="btn btn-sm btn-primary"
+              >
+                {emailSearchLoading ? <span className="loading loading-spinner loading-xs"></span> : 'Add'}
+              </button>
+            </div>
           </div>
+
+          {/* Search Existing Conversations */}
+          {conversations.length > 0 && (
+            <div>
+              <label className="text-xs font-semibold text-base-content/70 mb-1 block">Search Conversations</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={conversationSearchQuery}
+                  onChange={(e) => setConversationSearchQuery(e.target.value)}
+                  placeholder="Search by name or email..."
+                  className="input input-bordered input-sm w-full pl-9"
+                />
+                <svg 
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-base-content/40" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                {conversationSearchQuery && (
+                  <button
+                    onClick={() => setConversationSearchQuery("")}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 btn btn-ghost btn-xs btn-circle"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="divide-y divide-base-300">
-          {conversations.map((conv) => {
-            const chatUser = getUserFromConversation(conv);
-            if (!chatUser) return null;
-            return (
-              <div
-                key={conv._id}
-                onClick={() => handleUserSelect(chatUser)}
-                className={`p-4 flex items-center gap-3 cursor-pointer transition-all hover:bg-base-200 ${
-                  selectedUser?.email === chatUser.email ? "bg-base-200" : ""
-                }`}
-              >
-                <div className="relative">
-                  <div
-                    className={`avatar ${
-                      isUserOnline(chatUser.email)
-                        ? "ring ring-success ring-offset-base-100 ring-offset-2"
-                        : ""
-                    }`}
-                  >
-                    <div className="w-12 h-12 rounded-full">
-                      {chatUser.photoURL ? (
-                        <img src={chatUser.photoURL} alt={chatUser.displayName} />
-                      ) : (
-                        <div className="bg-primary text-primary-content flex items-center justify-center w-full h-full rounded-full text-lg">
-                          {chatUser.displayName?.[0] || chatUser.email[0].toUpperCase()}
-                        </div>
-                      )}
+        {conversations.length === 0 ? (
+          <div className="p-4">
+            <NoDataFound 
+              message="No Conversations Yet" 
+              description="Add a user by email above to start chatting!"
+            />
+          </div>
+        ) : filteredConversations.length === 0 ? (
+          <div className="p-4">
+            <NoDataFound 
+              message="No Results Found" 
+              description={`No conversations match "${conversationSearchQuery}"`}
+            />
+          </div>
+        ) : (
+          <div className="divide-y divide-base-300">
+            {filteredConversations.map((conv) => {
+              const chatUser = getUserFromConversation(conv);
+              if (!chatUser) return null;
+              return (
+                <div
+                  key={conv._id}
+                  onClick={() => handleUserSelect(chatUser)}
+                  className={`p-4 flex items-center gap-3 cursor-pointer transition-all hover:bg-base-200 ${
+                    selectedUser?.email === chatUser.email ? "bg-base-200 border-l-4 border-primary" : ""
+                  }`}
+                >
+                  <div className="relative">
+                    <div
+                      className={`avatar ${
+                        isUserOnline(chatUser.email)
+                          ? "ring ring-success ring-offset-base-100 ring-offset-2"
+                          : ""
+                      }`}
+                    >
+                      <div className="w-12 h-12 rounded-full">
+                        {chatUser.photoURL ? (
+                          <img src={chatUser.photoURL} alt={chatUser.displayName} />
+                        ) : (
+                          <div className="bg-primary text-primary-content flex items-center justify-center w-full h-full rounded-full text-lg">
+                            {chatUser.displayName?.[0] || chatUser.email[0].toUpperCase()}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold truncate">
+                      {chatUser.displayName || chatUser.email}
+                    </p>
+                    <p className="text-xs text-gray-400 truncate">
+                      {chatUser.email}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {isUserOnline(chatUser.email) ? "🟢 Online" : "⚪ Offline"}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="font-semibold truncate">
-                    {chatUser.displayName || chatUser.email}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    {chatUser.email}
-                  </p>
-                </div>
-                {selectedUser ?
-                  <p className="text-xs text-gray-500">
-                  {isUserOnline(selectedUser?.email) ? "🟢 Online" : "⚪ Offline" }
-                </p>
-                : <p className="text-xs text-gray-500">
-                  {isUserOnline(!selectedUser?.email) ? "🟢 Online" : "⚪ Offline" }
-                </p>}
-              
-              </div>
-              
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* 🔹 Chat Window */}
