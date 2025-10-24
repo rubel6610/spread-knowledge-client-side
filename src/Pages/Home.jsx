@@ -6,7 +6,6 @@ import EditorChoice from "./../Components/EditorChoice";
 import TopContributors from "./../Components/TopContributors";
 import Stats from "./../Components/Stats";
 import Testimonials from "./../Components/Testimonials";
-import Newsletter from "./../Components/Newsletter";
 import Features from "./../Components/Features";
 
 const Home = () => {
@@ -20,7 +19,7 @@ const Home = () => {
       <EditorChoice />
       <TopContributors />
       <Testimonials />
-      <Newsletter />
+   
     </div>
   );
 };
